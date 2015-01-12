@@ -1,70 +1,75 @@
-var React = require('react');
-var Classable = require('./mixins/classable');
-var DialogWindow = require('./dialog-window.jsx');
-var FlatButton = require('./flat-button.jsx');
 
-var Dialog = React.createClass({
+(function(React, Classable, DialogWindow, FlatButton, exports) {
 
-  mixins: [Classable],
+  // var React = require('react');
+  // var Classable = require('./mixins/classable');
+  // var DialogWindow = require('./dialog-window.jsx');
+  // var FlatButton = require('./flat-button.jsx');
 
-  propTypes: {
-    title: React.PropTypes.string,
-    actions: React.PropTypes.array
-  },
+  var Dialog = React.createClass({
 
-  getDefaultProps: function() {
-    return {
-      actions: []
-    };
-  },
+    mixins: [Classable],
 
-  render: function() {
-    var {
-      className,
-      title,
-      actions,
-      ...other
-    } = this.props;
-    var classes = this.getClasses('mui-dialog');
-    var actions = this._getDialogActions();
+    propTypes: {
+      title: React.PropTypes.string,
+      actions: React.PropTypes.array
+    },
 
-    return (
-      <DialogWindow
-        {...other}
-        ref="dialogWindow"
-        className={classes}
-        actions={actions}>
+    getDefaultProps: function() {
+      return {
+        actions: []
+      };
+    },
 
-        <h3 className="mui-dialog-title">{this.props.title}</h3>
-        <div ref="dialogContent" className="mui-dialog-content">
-          {this.props.children}
-        </div>
-        
-      </DialogWindow>
-    );
-  },
+    render: function() {
+      var {
+        className,
+        title,
+        actions,
+        ...other
+      } = this.props;
+      var classes = this.getClasses('mui-dialog');
+      var actions = this._getDialogActions();
 
-  dismiss: function() {
-    this.refs.dialogWindow.dismiss();
-  },
-
-  show: function() {
-    this.refs.dialogWindow.show();
-  },
-
-  _getDialogActions: function() {
-    return this.props.actions.map(function(a, index) {
-      var onClickHandler = a.onClick ? a.onClick : this.dismiss;
       return (
-        <FlatButton
-          key={index}
-          secondary={true}
-          onClick={onClickHandler}
-          label={a.text} />
+        <DialogWindow
+          {...other}
+          ref="dialogWindow"
+          className={classes}
+          actions={actions}>
+
+          <h3 className="mui-dialog-title">{this.props.title}</h3>
+          <div ref="dialogContent" className="mui-dialog-content">
+            {this.props.children}
+          </div>
+          
+        </DialogWindow>
       );
-    }.bind(this));
-  }
+    },
 
-});
+    dismiss: function() {
+      this.refs.dialogWindow.dismiss();
+    },
 
-module.exports = Dialog;
+    show: function() {
+      this.refs.dialogWindow.show();
+    },
+
+    _getDialogActions: function() {
+      return this.props.actions.map(function(a, index) {
+        var onClickHandler = a.onClick ? a.onClick : this.dismiss;
+        return (
+          <FlatButton
+            key={index}
+            secondary={true}
+            onClick={onClickHandler}
+            label={a.text} />
+        );
+      }.bind(this));
+    }
+
+  });
+
+  exports.Dialog = Dialog;
+
+})(window.React, window.Classable, window.DialogWindow, window.FlatButton, window);

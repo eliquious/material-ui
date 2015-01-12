@@ -1,58 +1,62 @@
-var React = require('react');
-var Classable = require('./mixins/classable.js');
+(function(React, Classable, exports) {
 
-var Tooltip = React.createClass({
+  // var React = require('react');
+  // var Classable = require('./mixins/classable.js');
 
-  mixins: [Classable],
+  var Tooltip = React.createClass({
 
-  propTypes: {
-    className: React.PropTypes.string,
-    label: React.PropTypes.string.isRequired,
-    show: React.PropTypes.bool,
-    touch: React.PropTypes.bool
-  },
+    mixins: [Classable],
 
-  componentDidMount: function() {
-    this._setRippleSize();
-  },
+    propTypes: {
+      className: React.PropTypes.string,
+      label: React.PropTypes.string.isRequired,
+      show: React.PropTypes.bool,
+      touch: React.PropTypes.bool
+    },
 
-  componentDidUpdate: function(prevProps, prevState) {
-    this._setRippleSize();
-  },
+    componentDidMount: function() {
+      this._setRippleSize();
+    },
 
-  render: function() {
-    var {
-      className,
-      label,
-      ...other } = this.props;
-    var classes = this.getClasses('mui-tooltip', {
-      'mui-is-shown': this.props.show,
-      'mui-is-touch': this.props.touch
-    });
+    componentDidUpdate: function(prevProps, prevState) {
+      this._setRippleSize();
+    },
 
-    return (
-      <div {...other} className={classes}>
-        <div ref="ripple" className="mui-tooltip-ripple" />
-        <span className="mui-tooltip-label">{this.props.label}</span>
-      </div>
-    );
-  },
+    render: function() {
+      var {
+        className,
+        label,
+        ...other } = this.props;
+      var classes = this.getClasses('mui-tooltip', {
+        'mui-is-shown': this.props.show,
+        'mui-is-touch': this.props.touch
+      });
 
-  _setRippleSize: function() {
-    var ripple = this.refs.ripple.getDOMNode();
-    var tooltipSize = this.getDOMNode().offsetWidth;
-    var ripplePadding = this.props.touch ? 45 : 20;
-    var rippleSize = tooltipSize + ripplePadding + 'px';
+      return (
+        <div {...other} className={classes}>
+          <div ref="ripple" className="mui-tooltip-ripple" />
+          <span className="mui-tooltip-label">{this.props.label}</span>
+        </div>
+      );
+    },
 
-    if (this.props.show) {
-      ripple.style.height = rippleSize;
-      ripple.style.width = rippleSize;
-    } else {
-      ripple.style.width = '0px';
-      ripple.style.height = '0px';
+    _setRippleSize: function() {
+      var ripple = this.refs.ripple.getDOMNode();
+      var tooltipSize = this.getDOMNode().offsetWidth;
+      var ripplePadding = this.props.touch ? 45 : 20;
+      var rippleSize = tooltipSize + ripplePadding + 'px';
+
+      if (this.props.show) {
+        ripple.style.height = rippleSize;
+        ripple.style.width = rippleSize;
+      } else {
+        ripple.style.width = '0px';
+        ripple.style.height = '0px';
+      }
     }
-  }
 
-});
+  });
 
-module.exports = Tooltip;
+  exports.Tooltip = Tooltip;
+
+})(window.React, window.Classable, window);

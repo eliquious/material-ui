@@ -1,43 +1,47 @@
-var React = require('react'),
-    Classable = require('./mixins/classable.js'),
-    Paper = require('./paper.jsx');
+(function(React, Classable, Paper, exports) {
 
-var Toggle = React.createClass({
+  // var React = require('react'),
+  //     Classable = require('./mixins/classable.js'),
+  //     Paper = require('./paper.jsx');
 
-  propTypes: {
-    onToggle: React.PropTypes.func,
-    toggled: React.PropTypes.bool
-  },
+  var Toggle = React.createClass({
 
-  mixins: [Classable],
+    propTypes: {
+      onToggle: React.PropTypes.func,
+      toggled: React.PropTypes.bool
+    },
 
-  getInitialState: function() {
-    return {
-      toggled: this.props.toggled
+    mixins: [Classable],
+
+    getInitialState: function() {
+      return {
+        toggled: this.props.toggled
+      }
+    },
+
+    render: function() {
+      var classes = this.getClasses('mui-toggle', {
+        'mui-is-toggled': this.state.toggled
+      })
+
+      return (
+        <div className={classes} onTouchTap={this._handleTouchTap}>
+          <div className="mui-toggle-track" />
+          <Paper className="mui-toggle-thumb" zDepth={1} />
+        </div>
+      );
+    },
+
+    _handleTouchTap: function(e) {
+      var toggledState = !this.state.toggled;
+
+      this.setState({ toggled: toggledState });
+
+      if (this.props.onToggle) this.props.onToggle(e, toggledState);
     }
-  },
 
-  render: function() {
-    var classes = this.getClasses('mui-toggle', {
-      'mui-is-toggled': this.state.toggled
-    })
+  });
 
-    return (
-      <div className={classes} onTouchTap={this._handleTouchTap}>
-        <div className="mui-toggle-track" />
-        <Paper className="mui-toggle-thumb" zDepth={1} />
-      </div>
-    );
-  },
+  exports.Toggle = Toggle;
 
-  _handleTouchTap: function(e) {
-    var toggledState = !this.state.toggled;
-
-    this.setState({ toggled: toggledState });
-
-    if (this.props.onToggle) this.props.onToggle(e, toggledState);
-  }
-
-});
-
-module.exports = Toggle;
+})(window.React, window.Classable, window.Paper, window);

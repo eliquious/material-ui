@@ -1,23 +1,26 @@
 /** @jsx React.DOM */
+(function(React, Classable, exports) {
 
-var Classable = require('./mixins/classable.js');
-var React = require('react');
+  // var Classable = require('./mixins/classable.js');
+  // var React = require('react');
 
-var Toolbar = React.createClass({
+  var Toolbar = React.createClass({
 
-  mixins: [Classable],
+    mixins: [Classable],
 
-  render: function() {
-    var classes = this.getClasses('mui-toolbar', {
-    });
+    render: function() {
+      var classes = this.getClasses('mui-toolbar', {
+      });
 
-    return (
-      <div className={classes}>
-        {this.props.children}
-      </div>
-    );
-  }
+      return (
+        <div className={classes}>
+          {this.props.children}
+        </div>
+      );
+    }
 
-});
+  });
 
-module.exports = Toolbar;
+  module.exports = Toolbar;
+
+})(window.React, window.Classable, window);

@@ -1,108 +1,114 @@
-var React = require('react');
-var Classable = require('../mixins/classable.js');
-var WindowListenable = require('../mixins/window-listenable.js');
-var KeyCode = require('../utils/key-code.js');
-var Calendar = require('./calendar.jsx');
-var DialogWindow = require('../dialog-window.jsx');
-var FlatButton = require('../flat-button.jsx');
+(function(React, Classable, WindowListenable, KeyCode, Calendar, DialogWindow, 
+  FlatButton, exports) {
 
-var DatePickerDialog = React.createClass({
+  // var React = require('react');
+  // var Classable = require('../mixins/classable.js');
+  // var WindowListenable = require('../mixins/window-listenable.js');
+  // var KeyCode = require('../utils/key-code.js');
+  // var Calendar = require('./calendar.jsx');
+  // var DialogWindow = require('../dialog-window.jsx');
+  // var FlatButton = require('../flat-button.jsx');
 
-  mixins: [Classable, WindowListenable],
+  var DatePickerDialog = React.createClass({
 
-  propTypes: {
-    initialDate: React.PropTypes.object,
-    onAccept: React.PropTypes.func
-  },
+    mixins: [Classable, WindowListenable],
 
-  windowListeners: {
-    'keyup': '_handleWindowKeyUp'
-  },
+    propTypes: {
+      initialDate: React.PropTypes.object,
+      onAccept: React.PropTypes.func
+    },
 
-  getInitialState: function() {
-    return {
-      isCalendarActive: false
-    };
-  },
+    windowListeners: {
+      'keyup': '_handleWindowKeyUp'
+    },
 
-  render: function() {
-    var {
-      initialDate,
-      onAccept,
-      ...other
-    } = this.props;
-    var classes = this.getClasses('mui-date-picker-dialog');
-    var actions = [
-      <FlatButton
-        key={0}
-        label="Cancel"
-        secondary={true}
-        onTouchTap={this._handleCancelTouchTap} />,
-      <FlatButton
-        key={1}
-        label="OK"
-        secondary={true}
-        onTouchTap={this._handleOKTouchTap} />
-    ];
+    getInitialState: function() {
+      return {
+        isCalendarActive: false
+      };
+    },
 
-    return (
-      <DialogWindow {...other}
-        ref="dialogWindow"
-        className={classes}
-        actions={actions}
-        contentClassName="mui-date-picker-dialog-window"
-        onDismiss={this._handleDialogDismiss}
-        onShow={this._handleDialogShow}
-        repositionOnUpdate={false}>
-        <Calendar
-          ref="calendar"
-          initialDate={this.props.initialDate}
-          isActive={this.state.isCalendarActive} />
-      </DialogWindow>
-    );
-  },
+    render: function() {
+      var {
+        initialDate,
+        onAccept,
+        ...other
+      } = this.props;
+      var classes = this.getClasses('mui-date-picker-dialog');
+      var actions = [
+        <FlatButton
+          key={0}
+          label="Cancel"
+          secondary={true}
+          onTouchTap={this._handleCancelTouchTap} />,
+        <FlatButton
+          key={1}
+          label="OK"
+          secondary={true}
+          onTouchTap={this._handleOKTouchTap} />
+      ];
 
-  show: function() {
-    this.refs.dialogWindow.show();
-  },
+      return (
+        <DialogWindow {...other}
+          ref="dialogWindow"
+          className={classes}
+          actions={actions}
+          contentClassName="mui-date-picker-dialog-window"
+          onDismiss={this._handleDialogDismiss}
+          onShow={this._handleDialogShow}
+          repositionOnUpdate={false}>
+          <Calendar
+            ref="calendar"
+            initialDate={this.props.initialDate}
+            isActive={this.state.isCalendarActive} />
+        </DialogWindow>
+      );
+    },
 
-  dismiss: function() {
-    this.refs.dialogWindow.dismiss();
-  },
+    show: function() {
+      this.refs.dialogWindow.show();
+    },
 
-  _handleCancelTouchTap: function() {
-    this.dismiss();
-  },
+    dismiss: function() {
+      this.refs.dialogWindow.dismiss();
+    },
 
-  _handleOKTouchTap: function() {
-    this.dismiss();
-    if (this.props.onAccept) {
-      this.props.onAccept(this.refs.calendar.getSelectedDate());
-    }
-  },
+    _handleCancelTouchTap: function() {
+      this.dismiss();
+    },
 
-  _handleDialogShow: function() {
-    this.setState({
-      isCalendarActive: true
-    });
-  },
-
-  _handleDialogDismiss: function() {
-    this.setState({
-      isCalendarActive: false
-    });
-  },
-
-  _handleWindowKeyUp: function(e) {
-    if (this.refs.dialogWindow.isOpen()) {
-      switch (e.keyCode) {
-        case KeyCode.ENTER:
-          this._handleOKTouchTap();
-          break;
+    _handleOKTouchTap: function() {
+      this.dismiss();
+      if (this.props.onAccept) {
+        this.props.onAccept(this.refs.calendar.getSelectedDate());
       }
-    } 
-  }
+    },
 
-});
+    _handleDialogShow: function() {
+      this.setState({
+        isCalendarActive: true
+      });
+    },
 
-module.exports = DatePickerDialog;
+    _handleDialogDismiss: function() {
+      this.setState({
+        isCalendarActive: false
+      });
+    },
+
+    _handleWindowKeyUp: function(e) {
+      if (this.refs.dialogWindow.isOpen()) {
+        switch (e.keyCode) {
+          case KeyCode.ENTER:
+            this._handleOKTouchTap();
+            break;
+        }
+      } 
+    }
+
+  });
+
+  exports.DatePickerDialog = DatePickerDialog;
+
+})(window.React, window.Classable, window.WindowListenable, window.KeyCode,
+  window.Calendar, window.DialogWindow, window.FlatButton, window);

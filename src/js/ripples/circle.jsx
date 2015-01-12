@@ -1,35 +1,39 @@
-var React = require('react');
-var Classable = require('../mixins/classable');
+(function(React, Classable, exports) {
+  
+  // var React = require('react');
+  // var Classable = require('../mixins/classable');
 
-var RippleCircle = React.createClass({
+  var RippleCircle = React.createClass({
 
-  mixins: [Classable],
+    mixins: [Classable],
 
-  propTypes: {
-    className: React.PropTypes.string,
-    started: React.PropTypes.bool,
-    ending: React.PropTypes.bool
-  },
+    propTypes: {
+      className: React.PropTypes.string,
+      started: React.PropTypes.bool,
+      ending: React.PropTypes.bool
+    },
 
-  render: function() {
-    var {
-      innerClassName,
-      started,
-      ending,
-      ...other
-    } = this.props;
-    var classes = this.getClasses('mui-ripple-circle', {
-      'mui-is-started': this.props.started,
-      'mui-is-ending': this.props.ending
-    });
+    render: function() {
+      var {
+        innerClassName,
+        started,
+        ending,
+        ...other
+      } = this.props;
+      var classes = this.getClasses('mui-ripple-circle', {
+        'mui-is-started': this.props.started,
+        'mui-is-ending': this.props.ending
+      });
 
-    return (
-      <div {...other} className={classes}>
-        <div className="mui-ripple-circle-inner" />
-      </div>
-    );
-  }
+      return (
+        <div {...other} className={classes}>
+          <div className="mui-ripple-circle-inner" />
+        </div>
+      );
+    }
 
-});
+  });
 
-module.exports = RippleCircle;
+  exports.RippleCircle = RippleCircle;
+
+})(window.React, window.Classable, window);

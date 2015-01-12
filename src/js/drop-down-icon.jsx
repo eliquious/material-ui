@@ -1,55 +1,60 @@
-var React = require('react'),
-  Classable = require('./mixins/classable.js'),
-  ClickAwayable = require('./mixins/click-awayable'),
-  KeyLine = require('./utils/key-line.js'),
-  Paper = require('./paper.jsx'),
-  Icon = require('./icon.jsx'),
-  Menu = require('./menu.jsx'),
-  MenuItem = require('./menu-item.jsx');
 
-var DropDownIcon = React.createClass({
+(function(React, Classable, ClickAwayable, KeyLine, Paper, Icon, Menu, MenuItem, window) {
+  
+  // var React = require('react'),
+  //   Classable = require('./mixins/classable.js'),
+  //   ClickAwayable = require('./mixins/click-awayable'),
+  //   KeyLine = require('./utils/key-line.js'),
+  //   Paper = require('./paper.jsx'),
+  //   Icon = require('./icon.jsx'),
+  //   Menu = require('./menu.jsx'),
+  //   MenuItem = require('./menu-item.jsx');
 
-  mixins: [Classable, ClickAwayable],
+  var DropDownIcon = React.createClass({
 
-  propTypes: {
-    onChange: React.PropTypes.func,
-    menuItems: React.PropTypes.array.isRequired
-  },
+    mixins: [Classable, ClickAwayable],
 
-  getInitialState: function() {
-    return {
-      open: false
-    }
-  },
+    propTypes: {
+      onChange: React.PropTypes.func,
+      menuItems: React.PropTypes.array.isRequired
+    },
 
-  componentClickAway: function() {
-    this.setState({ open: false });
-  },
+    getInitialState: function() {
+      return {
+        open: false
+      }
+    },
 
-  render: function() {
-    var classes = this.getClasses('mui-drop-down-icon', {
-      'mui-open': this.state.open
-    });
+    componentClickAway: function() {
+      this.setState({ open: false });
+    },
 
-    return (
-      <div className={classes}>
-          <div className="mui-menu-control" onClick={this._onControlClick}>
-              <Icon icon={this.props.icon} />
+    render: function() {
+      var classes = this.getClasses('mui-drop-down-icon', {
+        'mui-open': this.state.open
+      });
+
+      return (
+        <div className={classes}>
+            <div className="mui-menu-control" onClick={this._onControlClick}>
+                <Icon icon={this.props.icon} />
+            </div>
+            <Menu ref="menuItems" menuItems={this.props.menuItems} hideable={true} visible={this.state.open} onItemClick={this._onMenuItemClick} />
           </div>
-          <Menu ref="menuItems" menuItems={this.props.menuItems} hideable={true} visible={this.state.open} onItemClick={this._onMenuItemClick} />
-        </div>
-    );
-  },
+      );
+    },
 
-  _onControlClick: function(e) {
-    this.setState({ open: !this.state.open });
-  },
+    _onControlClick: function(e) {
+      this.setState({ open: !this.state.open });
+    },
 
-  _onMenuItemClick: function(e, key, payload) {
-    if (this.props.onChange) this.props.onChange(e, key, payload);
-    this.setState({ open: false });
-  }
+    _onMenuItemClick: function(e, key, payload) {
+      if (this.props.onChange) this.props.onChange(e, key, payload);
+      this.setState({ open: false });
+    }
 
-});
+  });
 
-module.exports = DropDownIcon;
+  exports.DropDownIcon = DropDownIcon;
+
+})(window.React, window.Classable, window.ClickAwayable, window.KeyLine, window.Paper, window.Icon, window.Menu, window.MenuItem, window);

@@ -1,31 +1,35 @@
-var React = require('react'),
-  Classable = require('./mixins/classable.js');
+(function(React, Classable, exports) {
 
-var TableRowItem = React.createClass({
+  // var React = require('react'),
+  //   Classable = require('./mixins/classable.js');
 
-  mixins: [Classable],
+  var TableRowItem = React.createClass({
 
-  propTypes: {
-  },
+    mixins: [Classable],
 
-  getDefaultProps: function() {
-    return {
-    };
-  },
+    propTypes: {
+    },
 
-  render: function() {
-    var classes = this.getClasses('mui-table-rows-item');
+    getDefaultProps: function() {
+      return {
+      };
+    },
 
-    return (
-      <div className={classes}>
-        (TableRowItem)
-        <div className="mui-table-rows-actions">
-          (Actions)
+    render: function() {
+      var classes = this.getClasses('mui-table-rows-item');
+
+      return (
+        <div className={classes}>
+          (TableRowItem)
+          <div className="mui-table-rows-actions">
+            (Actions)
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-});
+  });
 
-module.exports = TableRowItem;
+  exports.TableRowItem = TableRowItem;
+  
+})(window.React, window.Classable, window);

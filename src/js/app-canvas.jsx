@@ -1,27 +1,27 @@
-var React = require('react'),
-  Classable = require('./mixins/classable.js');
+(function(React, Classable, exports){
 
-var AppCanvas = React.createClass({
+  var AppCanvas = React.createClass({
 
-  mixins: [Classable],
+    mixins: [Classable],
 
-  propTypes: {
-    predefinedLayout: React.PropTypes.number
-  },
+    propTypes: {
+      predefinedLayout: React.PropTypes.number
+    },
 
-  render: function() {
-    var classes = this.getClasses({
-      'mui-app-canvas': true,
-      'mui-predefined-layout-1': this.props.predefinedLayout === 1
-    });
+    render: function() {
+      var classes = this.getClasses({
+        'mui-app-canvas': true,
+        'mui-predefined-layout-1': this.props.predefinedLayout === 1
+      });
 
-    return (
-      <div className={classes}>
-        {this.props.children}
-      </div>
-    );
-  }
+      return (
+        <div className={classes}>
+          {this.props.children}
+        </div>
+      );
+    }
+  });
 
-});
+  exports.AppCanvas = AppCanvas;
 
-module.exports = AppCanvas;
+})(window.React, window.Classable, window);

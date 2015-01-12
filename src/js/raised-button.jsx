@@ -1,86 +1,90 @@
-var React = require('react');
-var Classable = require('./mixins/classable.js');
-var EnhancedButton = require('./enhanced-button.jsx');
-var Paper = require('./paper.jsx');
+(function(React, Classable, EnhancedButton, Paper, exports) {
 
-var RaisedButton = React.createClass({
+  // var React = require('react');
+  // var Classable = require('./mixins/classable.js');
+  // var EnhancedButton = require('./enhanced-button.jsx');
+  // var Paper = require('./paper.jsx');
 
-  mixins: [Classable],
+  var RaisedButton = React.createClass({
 
-  propTypes: {
-    className: React.PropTypes.string,
-    label: React.PropTypes.string.isRequired,
-    onMouseDown: React.PropTypes.func,
-    onMouseUp: React.PropTypes.func,
-    onMouseOut: React.PropTypes.func,
-    onTouchEnd: React.PropTypes.func,
-    onTouchStart: React.PropTypes.func,
-    primary: React.PropTypes.bool,
-    secondary: React.PropTypes.bool
-  },
+    mixins: [Classable],
 
-  getInitialState: function() {
-    var zDepth = this.props.disabled ? 0 : 1;
-    return {
-      zDepth: zDepth,
-      initialZDepth: zDepth
-    };
-  },
+    propTypes: {
+      className: React.PropTypes.string,
+      label: React.PropTypes.string.isRequired,
+      onMouseDown: React.PropTypes.func,
+      onMouseUp: React.PropTypes.func,
+      onMouseOut: React.PropTypes.func,
+      onTouchEnd: React.PropTypes.func,
+      onTouchStart: React.PropTypes.func,
+      primary: React.PropTypes.bool,
+      secondary: React.PropTypes.bool
+    },
 
-  render: function() {
-    var {
-      label,
-      primary,
-      secondary,
-      ...other } = this.props;
-    var classes = this.getClasses('mui-raised-button', {
-      'mui-is-primary': primary,
-      'mui-is-secondary': !primary && secondary
-    });
+    getInitialState: function() {
+      var zDepth = this.props.disabled ? 0 : 1;
+      return {
+        zDepth: zDepth,
+        initialZDepth: zDepth
+      };
+    },
 
-    return (
-      <Paper className={classes} zDepth={this.state.zDepth}>
-        <EnhancedButton {...other}
-          className="mui-raised-button-container" 
-          onMouseUp={this._handleMouseUp}
-          onMouseDown={this._handleMouseDown}
-          onMouseOut={this._handleMouseOut}
-          onTouchStart={this._handleTouchStart}
-          onTouchEnd={this._handleTouchEnd}>
-          <span className="mui-raised-button-label">{label}</span>
-        </EnhancedButton>
-      </Paper>
-    );
-  },
+    render: function() {
+      var {
+        label,
+        primary,
+        secondary,
+        ...other } = this.props;
+      var classes = this.getClasses('mui-raised-button', {
+        'mui-is-primary': primary,
+        'mui-is-secondary': !primary && secondary
+      });
 
-  _handleMouseDown: function(e) {
-    //only listen to left clicks
-    if (e.button === 0) {
+      return (
+        <Paper className={classes} zDepth={this.state.zDepth}>
+          <EnhancedButton {...other}
+            className="mui-raised-button-container" 
+            onMouseUp={this._handleMouseUp}
+            onMouseDown={this._handleMouseDown}
+            onMouseOut={this._handleMouseOut}
+            onTouchStart={this._handleTouchStart}
+            onTouchEnd={this._handleTouchEnd}>
+            <span className="mui-raised-button-label">{label}</span>
+          </EnhancedButton>
+        </Paper>
+      );
+    },
+
+    _handleMouseDown: function(e) {
+      //only listen to left clicks
+      if (e.button === 0) {
+        this.setState({ zDepth: this.state.initialZDepth + 1 });
+      }
+      if (this.props.onMouseDown) this.props.onMouseDown(e);
+    },
+
+    _handleMouseUp: function(e) {
+      this.setState({ zDepth: this.state.initialZDepth });
+      if (this.props.onMouseUp) this.props.onMouseUp(e);
+    },
+
+    _handleMouseOut: function(e) {
+      this.setState({ zDepth: this.state.initialZDepth });
+      if (this.props.onMouseOut) this.props.onMouseOut(e);
+    },
+
+    _handleTouchStart: function(e) {
       this.setState({ zDepth: this.state.initialZDepth + 1 });
+      if (this.props.onTouchStart) this.props.onTouchStart(e);
+    },
+
+    _handleTouchEnd: function(e) {
+      this.setState({ zDepth: this.state.initialZDepth });
+      if (this.props.onTouchEnd) this.props.onTouchEnd(e);
     }
-    if (this.props.onMouseDown) this.props.onMouseDown(e);
-  },
 
-  _handleMouseUp: function(e) {
-    this.setState({ zDepth: this.state.initialZDepth });
-    if (this.props.onMouseUp) this.props.onMouseUp(e);
-  },
+  });
 
-  _handleMouseOut: function(e) {
-    this.setState({ zDepth: this.state.initialZDepth });
-    if (this.props.onMouseOut) this.props.onMouseOut(e);
-  },
+  exports.RaisedButton = RaisedButton;
 
-  _handleTouchStart: function(e) {
-    this.setState({ zDepth: this.state.initialZDepth + 1 });
-    if (this.props.onTouchStart) this.props.onTouchStart(e);
-  },
-
-  _handleTouchEnd: function(e) {
-    this.setState({ zDepth: this.state.initialZDepth });
-    if (this.props.onTouchEnd) this.props.onTouchEnd(e);
-  }
-
-});
-
-module.exports = RaisedButton;
+})(window.React, window.Classable, window.EnhancedButton, window.Paper, window);

@@ -1,79 +1,83 @@
-var React = require('react');
-var Classable = require('../mixins/classable.js');
-var DateTime = require('../utils/date-time.js');
-var SlideInTransitionGroup = require('../transition-groups/slide-in.jsx');
+(function(React, Classable, DateTime, SlideInTransitionGroup, exports) {
 
-var DateDisplay = React.createClass({
+  // var React = require('react');
+  // var Classable = require('../mixins/classable.js');
+  // var DateTime = require('../utils/date-time.js');
+  // var SlideInTransitionGroup = require('../transition-groups/slide-in.jsx');
 
-  mixins: [Classable],
+  var DateDisplay = React.createClass({
 
-  propTypes: {
-    selectedDate: React.PropTypes.object.isRequired
-  },
+    mixins: [Classable],
 
-  getInitialState: function() {
-    return {
-      transitionDirection: 'up'
-    };
-  },
+    propTypes: {
+      selectedDate: React.PropTypes.object.isRequired
+    },
 
-  componentWillReceiveProps: function(nextProps) {
-    var direction;
+    getInitialState: function() {
+      return {
+        transitionDirection: 'up'
+      };
+    },
 
-    if (nextProps.selectedDate !== this.props.selectedDate) {
-      direction = nextProps.selectedDate > this.props.selectedDate ? 'up' : 'down';
-      this.setState({
-        transitionDirection: direction
-      });
-    }
-  },
+    componentWillReceiveProps: function(nextProps) {
+      var direction;
 
-  render: function() {
-    var {
-      selectedDate,
-      ...other
-    } = this.props;
-    var classes = this.getClasses('mui-date-picker-date-display');
-    var dayOfWeek = DateTime.getDayOfWeek(this.props.selectedDate);
-    var month = DateTime.getShortMonth(this.props.selectedDate);
-    var day = this.props.selectedDate.getDate();
-    var year = this.props.selectedDate.getFullYear();
+      if (nextProps.selectedDate !== this.props.selectedDate) {
+        direction = nextProps.selectedDate > this.props.selectedDate ? 'up' : 'down';
+        this.setState({
+          transitionDirection: direction
+        });
+      }
+    },
 
-    return (
-      <div {...other} className={classes}>
+    render: function() {
+      var {
+        selectedDate,
+        ...other
+      } = this.props;
+      var classes = this.getClasses('mui-date-picker-date-display');
+      var dayOfWeek = DateTime.getDayOfWeek(this.props.selectedDate);
+      var month = DateTime.getShortMonth(this.props.selectedDate);
+      var day = this.props.selectedDate.getDate();
+      var year = this.props.selectedDate.getFullYear();
 
-        <SlideInTransitionGroup
-          className="mui-date-picker-date-display-dow"
-          direction={this.state.transitionDirection}>
-          <div key={dayOfWeek}>{dayOfWeek}</div>
-        </SlideInTransitionGroup>
-
-        <div className="mui-date-picker-date-display-date">
+      return (
+        <div {...other} className={classes}>
 
           <SlideInTransitionGroup
-            className="mui-date-picker-date-display-month"
+            className="mui-date-picker-date-display-dow"
             direction={this.state.transitionDirection}>
-            <div key={month}>{month}</div>
+            <div key={dayOfWeek}>{dayOfWeek}</div>
           </SlideInTransitionGroup>
 
-          <SlideInTransitionGroup
-            className="mui-date-picker-date-display-day"
-            direction={this.state.transitionDirection}>
-            <div key={day}>{day}</div>
-          </SlideInTransitionGroup>
+          <div className="mui-date-picker-date-display-date">
 
-          <SlideInTransitionGroup
-            className="mui-date-picker-date-display-year"
-            direction={this.state.transitionDirection}>
-            <div key={year}>{year}</div>
-          </SlideInTransitionGroup>
+            <SlideInTransitionGroup
+              className="mui-date-picker-date-display-month"
+              direction={this.state.transitionDirection}>
+              <div key={month}>{month}</div>
+            </SlideInTransitionGroup>
+
+            <SlideInTransitionGroup
+              className="mui-date-picker-date-display-day"
+              direction={this.state.transitionDirection}>
+              <div key={day}>{day}</div>
+            </SlideInTransitionGroup>
+
+            <SlideInTransitionGroup
+              className="mui-date-picker-date-display-year"
+              direction={this.state.transitionDirection}>
+              <div key={year}>{year}</div>
+            </SlideInTransitionGroup>
+
+          </div>
 
         </div>
+      );
+    }
 
-      </div>
-    );
-  }
+  });
 
-});
+  exports.DateDisplay = DateDisplay;
 
-module.exports = DateDisplay;
+})(window.React, window.Classable, window.DateTime, window.SlideInTransitionGroup, window);

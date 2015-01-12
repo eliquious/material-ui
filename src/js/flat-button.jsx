@@ -1,38 +1,42 @@
-var React = require('react');
-var Classable = require('./mixins/classable.js');
-var EnhancedButton = require('./enhanced-button.jsx');
+(function(React, Classable, EnhancedButton, exports) {
 
-var FlatButton = React.createClass({
+  // var React = require('react');
+  // var Classable = require('./mixins/classable.js');
+  // var EnhancedButton = require('./enhanced-button.jsx');
 
-  mixins: [Classable],
+  var FlatButton = React.createClass({
 
-  propTypes: {
-    className: React.PropTypes.string,
-    label: React.PropTypes.string.isRequired,
-    primary: React.PropTypes.bool,
-    secondary: React.PropTypes.bool
-  },
+    mixins: [Classable],
 
-  render: function() {
-    var {
-        label,
-        primary,
-        secondary,
-        ...other
-      } = this.props;
-    var classes = this.getClasses('mui-flat-button', {
-      'mui-is-primary': primary,
-      'mui-is-secondary': !primary && secondary
-    });
+    propTypes: {
+      className: React.PropTypes.string,
+      label: React.PropTypes.string.isRequired,
+      primary: React.PropTypes.bool,
+      secondary: React.PropTypes.bool
+    },
 
-    return (
-      <EnhancedButton {...other}
-        className={classes}>
-        <span className="mui-flat-button-label">{label}</span>
-      </EnhancedButton>
-    );
-  }
+    render: function() {
+      var {
+          label,
+          primary,
+          secondary,
+          ...other
+        } = this.props;
+      var classes = this.getClasses('mui-flat-button', {
+        'mui-is-primary': primary,
+        'mui-is-secondary': !primary && secondary
+      });
 
-});
+      return (
+        <EnhancedButton {...other}
+          className={classes}>
+          <span className="mui-flat-button-label">{label}</span>
+        </EnhancedButton>
+      );
+    }
 
-module.exports = FlatButton;
+  });
+
+  exports.FlatButton = FlatButton;
+
+})(window.React, window.Classable, window.EnhancedButton, window);

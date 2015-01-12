@@ -1,68 +1,70 @@
-var React = require('react'),
-    Classable = require('./mixins/classable.js');
 
-var Checkbox = React.createClass({
+(function(React, Classable, exports) {
+  
+  var Checkbox = React.createClass({
 
-  propTypes: {
-    label: React.PropTypes.string,
-    name: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func,
-    onCheck: React.PropTypes.func,
-    value: React.PropTypes.string.isRequired,
-    checked: React.PropTypes.bool
-  },
+    propTypes: {
+      label: React.PropTypes.string,
+      name: React.PropTypes.string.isRequired,
+      onClick: React.PropTypes.func,
+      onCheck: React.PropTypes.func,
+      value: React.PropTypes.string.isRequired,
+      checked: React.PropTypes.bool
+    },
 
-  mixins: [Classable],
+    mixins: [Classable],
 
-  getInitialState: function() {
-    return {
-      checked: this.props.checked || false
-    }
-  },
+    getInitialState: function() {
+      return {
+        checked: this.props.checked || false
+      }
+    },
 
-  componentWillReceiveProps: function(nextProps) {
-    if (nextProps.hasOwnProperty('checked')) this.setState({checked: nextProps.checked});
-  },
+    componentWillReceiveProps: function(nextProps) {
+      if (nextProps.hasOwnProperty('checked')) this.setState({checked: nextProps.checked});
+    },
 
-  check: function() {
-    this.setState({ checked: !this.state.checked });
-    this.refs.checkbox.getDOMNode().checked = !this.refs.checkbox.getDOMNode().checked;
+    check: function() {
+      this.setState({ checked: !this.state.checked });
+      this.refs.checkbox.getDOMNode().checked = !this.refs.checkbox.getDOMNode().checked;
 
-  },
+    },
 
-  render: function() {
+    render: function() {
 
-    var classes = this.getClasses('mui-checkbox');
+      var classes = this.getClasses('mui-checkbox');
 
-    var componentclasses = React.addons.classSet({
-      'mui-checkbox-component': true,
-      'mui-checked': this.state.checked === true
-    });
+      var componentclasses = React.addons.classSet({
+        'mui-checkbox-component': true,
+        'mui-checked': this.state.checked === true
+      });
 
-    return (
-      <div className={classes}>
-        <div className={componentclasses} onClick={this._onClick}> 
-          <input 
-            ref="checkbox" 
-            type="checkbox"
-            name={this.props.name} 
-            value={this.props.value} />
-          <span className="mui-checkbox-box" />
-          <span className="mui-checkbox-check" />
+      return (
+        <div className={classes}>
+          <div className={componentclasses} onClick={this._onClick}> 
+            <input 
+              ref="checkbox" 
+              type="checkbox"
+              name={this.props.name} 
+              value={this.props.value} />
+            <span className="mui-checkbox-box" />
+            <span className="mui-checkbox-check" />
+          </div>
+          <span className="mui-checkbox-label">{this.props.label}</span>
         </div>
-        <span className="mui-checkbox-label">{this.props.label}</span>
-      </div>
-    );
-  },
+      );
+    },
 
-  _onClick: function(e) {
-    var checkedState = this.state.checked;
+    _onClick: function(e) {
+      var checkedState = this.state.checked;
 
-    this.check();
+      this.check();
 
-    if (this.props.onClick) this.props.onClick(e, !checkedState);
-  }
+      if (this.props.onClick) this.props.onClick(e, !checkedState);
+    }
 
-});
+  });
 
-module.exports = Checkbox;
+  exports.Checkbox = Checkbox;
+
+})(window.React, window.Classable, window);

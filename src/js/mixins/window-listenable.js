@@ -1,23 +1,29 @@
-var Events = require('../utils/events.js');
+(function(Events, exports) {
 
-module.exports = {
+  // var Events = require('../utils/events.js');
 
-  componentDidMount: function() {
-    var listeners = this.windowListeners;
+  var WindowListenable = {
 
-    for (var eventName in listeners) {
-       var callbackName = listeners[eventName];
-       Events.on(window, eventName, this[callbackName]);
+    componentDidMount: function() {
+      var listeners = this.windowListeners;
+
+      for (var eventName in listeners) {
+         var callbackName = listeners[eventName];
+         Events.on(window, eventName, this[callbackName]);
+      }
+    },
+
+    componentWillUnmount: function() {
+      var listeners = this.windowListeners;
+
+      for (var eventName in listeners) {
+         var callbackName = listeners[eventName];
+         Events.off(window, eventName, this[callbackName]);
+      }
     }
-  },
-
-  componentWillUnmount: function() {
-    var listeners = this.windowListeners;
-
-    for (var eventName in listeners) {
-       var callbackName = listeners[eventName];
-       Events.off(window, eventName, this[callbackName]);
-    }
-  }
+    
+  };
   
-}
+  exports.WindowListenable = WindowListenable;
+
+})(window.Events, window);

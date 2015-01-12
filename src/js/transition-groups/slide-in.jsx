@@ -1,48 +1,52 @@
-var React = require('react/addons');
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-var Classable = require('../mixins/classable');
+(function(React, Classable, exports) {
 
-var SlideIn = React.createClass({
+  // var React = require('react/addons');
+  // var Classable = require('../mixins/classable');
+  var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-  mixins: [Classable],
+  var SlideIn = React.createClass({
 
-  propTypes: {
-    direction: React.PropTypes.oneOf(['left', 'right', 'up', 'down'])
-  },
+    mixins: [Classable],
 
-  getDefaultProps: function() {
-    return {
-      direction: 'left'
-    };
-  },
+    propTypes: {
+      direction: React.PropTypes.oneOf(['left', 'right', 'up', 'down'])
+    },
 
-  render: function() {
-    var {
-      className,
-      direction,
-      ...other
-    } = this.props;
-    var classes = this.getClasses('mui-transition-slide-in');
+    getDefaultProps: function() {
+      return {
+        direction: 'left'
+      };
+    },
 
-    classes += ' mui-is-' + this.props.direction;
+    render: function() {
+      var {
+        className,
+        direction,
+        ...other
+      } = this.props;
+      var classes = this.getClasses('mui-transition-slide-in');
 
-    //Add a custom className to every child
-    React.Children.forEach(this.props.children, function(child) {
-      child.props.className = child.props.className ?
-        child.props.className + ' mui-transition-slide-in-child':
-        'mui-transition-slide-in-child';
-    });
+      classes += ' mui-is-' + this.props.direction;
 
-    return (
-      <ReactCSSTransitionGroup {...other}
-        className={classes}
-        transitionName="mui-transition-slide-in"
-        component="div">
-        {this.props.children}
-      </ReactCSSTransitionGroup>
-    );
-  }
+      //Add a custom className to every child
+      React.Children.forEach(this.props.children, function(child) {
+        child.props.className = child.props.className ?
+          child.props.className + ' mui-transition-slide-in-child':
+          'mui-transition-slide-in-child';
+      });
 
-});
+      return (
+        <ReactCSSTransitionGroup {...other}
+          className={classes}
+          transitionName="mui-transition-slide-in"
+          component="div">
+          {this.props.children}
+        </ReactCSSTransitionGroup>
+      );
+    }
 
-module.exports = SlideIn;
+  });
+
+  exports.SlideIn = SlideIn;
+
+});(window.React, window.Classable, window)

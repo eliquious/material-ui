@@ -1,40 +1,44 @@
-var React = require('react');
-var Classable = require('../mixins/classable');
+(function(React, Classable, exports) {
 
-var FocusRipple = React.createClass({
+  // var React = require('react');
+  // var Classable = require('../mixins/classable');
 
-  mixins: [Classable],
+  var FocusRipple = React.createClass({
 
-  propTypes: {
-    show: React.PropTypes.bool
-  },
+    mixins: [Classable],
 
-  componentDidMount: function() {
-    this._setRippleSize();
-  },
+    propTypes: {
+      show: React.PropTypes.bool
+    },
 
-  render: function() {
-    var classes = this.getClasses('mui-focus-ripple', {
-      'mui-is-shown': this.props.show
-    });
+    componentDidMount: function() {
+      this._setRippleSize();
+    },
 
-    return (
-      <div className={classes}>
-        <div className="mui-focus-ripple-inner" />
-      </div>
-    );
-  },
+    render: function() {
+      var classes = this.getClasses('mui-focus-ripple', {
+        'mui-is-shown': this.props.show
+      });
 
-  _setRippleSize: function() {
-    var el = this.getDOMNode();
-    var height = el.offsetHeight;
-    var width = el.offsetWidth;
-    var size = Math.max(height, width);
+      return (
+        <div className={classes}>
+          <div className="mui-focus-ripple-inner" />
+        </div>
+      );
+    },
 
-    el.style.height = size + 'px';
-    el.style.top = (size / 2 * -1) + (height / 2) + 'px';
-  }
+    _setRippleSize: function() {
+      var el = this.getDOMNode();
+      var height = el.offsetHeight;
+      var width = el.offsetWidth;
+      var size = Math.max(height, width);
 
-});
+      el.style.height = size + 'px';
+      el.style.top = (size / 2 * -1) + (height / 2) + 'px';
+    }
 
-module.exports = FocusRipple;
+  });
+
+  exports.FocusRipple = FocusRipple;
+
+})(window.React, window.Classable, window);

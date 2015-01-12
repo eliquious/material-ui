@@ -1,56 +1,60 @@
-var React = require('react');
-var Classable = require('../mixins/classable');
-var DateTime = require('../utils/date-time.js');
-var DayButton = require('./day-button.jsx');
+(function(React, Classable, DateTime, DayButton, exports) {
 
-var CalendarMonth = React.createClass({
+  // var React = require('react');
+  // var Classable = require('../mixins/classable');
+  // var DateTime = require('../utils/date-time.js');
+  // var DayButton = require('./day-button.jsx');
 
-  mixins: [Classable],
+  var CalendarMonth = React.createClass({
 
-  propTypes: {
-    displayDate: React.PropTypes.object.isRequired,
-    onDayTouchTap: React.PropTypes.func,
-    selectedDate: React.PropTypes.object.isRequired
-  },
+    mixins: [Classable],
 
-  render: function() {
-    var classes = this.getClasses('mui-date-picker-calendar-month');
+    propTypes: {
+      displayDate: React.PropTypes.object.isRequired,
+      onDayTouchTap: React.PropTypes.func,
+      selectedDate: React.PropTypes.object.isRequired
+    },
 
-    return (
-      <div className={classes}>
-        {this._getWeekElements()}
-      </div>
-    );
-  },
+    render: function() {
+      var classes = this.getClasses('mui-date-picker-calendar-month');
 
-  _getWeekElements: function() {
-    var weekArray = DateTime.getWeekArray(this.props.displayDate);
-
-    return weekArray.map(function(week) {
       return (
-        <div className="mui-date-picker-calendar-month-week">
-          {this._getDayElements(week)}
+        <div className={classes}>
+          {this._getWeekElements()}
         </div>
       );
-    }, this);
-  },
+    },
 
-  _getDayElements: function(week) {
-    return week.map(function(day) {
-      var selected = DateTime.isEqualDate(this.props.selectedDate, day);
-      return (
-        <DayButton
-          date={day}
-          onTouchTap={this._handleDayTouchTap}
-          selected={selected} />
-      );
-    }, this);
-  },
+    _getWeekElements: function() {
+      var weekArray = DateTime.getWeekArray(this.props.displayDate);
 
-  _handleDayTouchTap: function(e, date) {
-    if (this.props.onDayTouchTap) this.props.onDayTouchTap(e, date);
-  }
+      return weekArray.map(function(week) {
+        return (
+          <div className="mui-date-picker-calendar-month-week">
+            {this._getDayElements(week)}
+          </div>
+        );
+      }, this);
+    },
 
-});
+    _getDayElements: function(week) {
+      return week.map(function(day) {
+        var selected = DateTime.isEqualDate(this.props.selectedDate, day);
+        return (
+          <DayButton
+            date={day}
+            onTouchTap={this._handleDayTouchTap}
+            selected={selected} />
+        );
+      }, this);
+    },
 
-module.exports = CalendarMonth;
+    _handleDayTouchTap: function(e, date) {
+      if (this.props.onDayTouchTap) this.props.onDayTouchTap(e, date);
+    }
+
+  });
+
+  exports.CalendarMonth = CalendarMonth;
+
+})(window.React, window.Classable, window.DateTime, window.DayButton, window);

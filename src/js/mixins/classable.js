@@ -1,42 +1,47 @@
-var React = require('react/addons');
-var classSet = React.addons.classSet;
+(function(React, exports) {
 
-module.exports = {
+  // var React = require('react/addons');
+  var classSet = React.addons.classSet;
 
-  propTypes: {
-    className: React.PropTypes.string
-  },
+  var Classable = {
 
-  getClasses: function(initialClasses, additionalClassObj) {
-    var classString = '';
+    propTypes: {
+      className: React.PropTypes.string
+    },
 
-    //Initialize the classString with the classNames that were passed in
-    if (this.props.className) classString += ' ' + this.props.className;
+    getClasses: function(initialClasses, additionalClassObj) {
+      var classString = '';
 
-    //Add in initial classes
-    if (typeof initialClasses === 'object') {
-      classString += ' ' + classSet(initialClasses);
-    } else {
-      classString += ' ' + initialClasses;
+      //Initialize the classString with the classNames that were passed in
+      if (this.props.className) classString += ' ' + this.props.className;
+
+      //Add in initial classes
+      if (typeof initialClasses === 'object') {
+        classString += ' ' + classSet(initialClasses);
+      } else {
+        classString += ' ' + initialClasses;
+      }
+
+      //Add in additional classes
+      if (additionalClassObj) classString += ' ' + classSet(additionalClassObj);
+
+      //Convert the class string into an object and run it through the class set
+      return classSet(this.getClassSet(classString));
+    },
+
+    getClassSet: function(classString) {
+      var classObj = {};
+
+      if (classString) {
+        classString.split(' ').forEach(function(className) {
+          if (className) classObj[className] = true;
+        });
+      }
+
+      return classObj;
     }
+  };
 
-    //Add in additional classes
-    if (additionalClassObj) classString += ' ' + classSet(additionalClassObj);
+  exports.Classable = Classable;
 
-    //Convert the class string into an object and run it through the class set
-    return classSet(this.getClassSet(classString));
-  },
-
-  getClassSet: function(classString) {
-    var classObj = {};
-
-    if (classString) {
-      classString.split(' ').forEach(function(className) {
-        if (className) classObj[className] = true;
-      });
-    }
-
-    return classObj;
-  }
-
-}
+})(window.React, window);

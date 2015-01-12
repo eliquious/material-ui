@@ -1,29 +1,33 @@
-var React = require('react'),
-  Classable = require('./mixins/classable.js');
+(function(React, Classable, exports) {
 
-var Overlay = React.createClass({
+  // var React = require('react'),
+  //   Classable = require('./mixins/classable.js');
 
-  mixins: [Classable],
+  var Overlay = React.createClass({
 
-  propTypes: {
-    show: React.PropTypes.bool
-  },
+    mixins: [Classable],
 
-  render: function() {
-    var 
-      {
-        className,
-        ...other
-      } = this.props,
-      classes = this.getClasses('mui-overlay', {
-        'mui-is-shown': this.props.show
-      });
+    propTypes: {
+      show: React.PropTypes.bool
+    },
 
-    return (
-      <div {...other} className={classes} />
-    );
-  }
+    render: function() {
+      var 
+        {
+          className,
+          ...other
+        } = this.props,
+        classes = this.getClasses('mui-overlay', {
+          'mui-is-shown': this.props.show
+        });
 
-});
+      return (
+        <div {...other} className={classes} />
+      );
+    }
 
-module.exports = Overlay;
+  });
+
+  exports.Overlay = Overlay;
+
+})(window.React, window.Classable, window);

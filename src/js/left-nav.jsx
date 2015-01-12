@@ -1,105 +1,109 @@
-var React = require('react'),
-  KeyCode = require('./utils/key-code.js'),
-  Classable = require('./mixins/classable.js'),
-  WindowListenable = require('./mixins/window-listenable.js'),
-  Overlay = require('./overlay.jsx'),
-  Paper = require('./paper.jsx'),
-  Menu = require('./menu.jsx');
+(function(React, KeyCode, Classable, WindowListenable, Overlay, Paper, Menu, exports) {
 
-var LeftNav = React.createClass({
+  // var React = require('react'),
+  //   KeyCode = require('./utils/key-code.js'),
+  //   Classable = require('./mixins/classable.js'),
+  //   WindowListenable = require('./mixins/window-listenable.js'),
+  //   Overlay = require('./overlay.jsx'),
+  //   Paper = require('./paper.jsx'),
+  //   Menu = require('./menu.jsx');
 
-  mixins: [Classable, WindowListenable],
+  var LeftNav = React.createClass({
 
-  propTypes: {
-    docked: React.PropTypes.bool,
-    header: React.PropTypes.element,
-    onChange: React.PropTypes.func,
-    menuItems: React.PropTypes.array.isRequired,
-    selectedIndex: React.PropTypes.number
-  },
+    mixins: [Classable, WindowListenable],
 
-  windowListeners: {
-    'keyup': '_onWindowKeyUp'
-  },
+    propTypes: {
+      docked: React.PropTypes.bool,
+      header: React.PropTypes.element,
+      onChange: React.PropTypes.func,
+      menuItems: React.PropTypes.array.isRequired,
+      selectedIndex: React.PropTypes.number
+    },
 
-  getDefaultProps: function() {
-    return {
-      docked: true
-    };
-  },
+    windowListeners: {
+      'keyup': '_onWindowKeyUp'
+    },
 
-  getInitialState: function() {
-    return {
-      open: this.props.docked
-    };
-  },
+    getDefaultProps: function() {
+      return {
+        docked: true
+      };
+    },
 
-  toggle: function() {
-    this.setState({ open: !this.state.open });
-    return this;
-  },
+    getInitialState: function() {
+      return {
+        open: this.props.docked
+      };
+    },
 
-  close: function() {
-    this.setState({ open: false });
-    return this;
-  },
+    toggle: function() {
+      this.setState({ open: !this.state.open });
+      return this;
+    },
 
-  open: function() {
-    this.setState({ open: true });
-    return this;
-  },
+    close: function() {
+      this.setState({ open: false });
+      return this;
+    },
 
-  render: function() {
-    var classes = this.getClasses('mui-left-nav', {
-        'mui-closed': !this.state.open
-      }),
-      selectedIndex = this.props.selectedIndex,
-      overlay;
+    open: function() {
+      this.setState({ open: true });
+      return this;
+    },
 
-    if (!this.props.docked) overlay = <Overlay show={this.state.open} onTouchTap={this._onOverlayTouchTap} />;
+    render: function() {
+      var classes = this.getClasses('mui-left-nav', {
+          'mui-closed': !this.state.open
+        }),
+        selectedIndex = this.props.selectedIndex,
+        overlay;
 
-    return (
-      <div className={classes}>
+      if (!this.props.docked) overlay = <Overlay show={this.state.open} onTouchTap={this._onOverlayTouchTap} />;
 
-        {overlay}
-        <Paper
-          ref="clickAwayableElement"
-          className="mui-left-nav-menu"
-          zDepth={2}
-          rounded={false}>
-          
-          {this.props.header}
-          <Menu 
-            ref="menuItems"
-            zDepth={0}
-            menuItems={this.props.menuItems}
-            selectedIndex={selectedIndex}
-            onItemClick={this._onMenuItemClick} />
+      return (
+        <div className={classes}>
 
-        </Paper>
-      </div>
-    );
-  },
+          {overlay}
+          <Paper
+            ref="clickAwayableElement"
+            className="mui-left-nav-menu"
+            zDepth={2}
+            rounded={false}>
+            
+            {this.props.header}
+            <Menu 
+              ref="menuItems"
+              zDepth={0}
+              menuItems={this.props.menuItems}
+              selectedIndex={selectedIndex}
+              onItemClick={this._onMenuItemClick} />
 
-  _onMenuItemClick: function(e, key, payload) {
-    if (!this.props.docked) this.close();
-    if (this.props.onChange && this.props.selectedIndex !== key) {
-      this.props.onChange(e, key, payload);
-    }
-  },
+          </Paper>
+        </div>
+      );
+    },
 
-  _onOverlayTouchTap: function() {
-    this.close();
-  },
+    _onMenuItemClick: function(e, key, payload) {
+      if (!this.props.docked) this.close();
+      if (this.props.onChange && this.props.selectedIndex !== key) {
+        this.props.onChange(e, key, payload);
+      }
+    },
 
-  _onWindowKeyUp: function(e) {
-    if (e.keyCode == KeyCode.ESC &&
-        !this.props.docked &&
-        this.state.open) {
+    _onOverlayTouchTap: function() {
       this.close();
+    },
+
+    _onWindowKeyUp: function(e) {
+      if (e.keyCode == KeyCode.ESC &&
+          !this.props.docked &&
+          this.state.open) {
+        this.close();
+      }
     }
-  }
 
-});
+  });
 
-module.exports = LeftNav;
+  exportsLeftNav = LeftNav;
+
+})(window.React, window.KeyCode, window.Classable, window.WindowListenable, window.Overlay, window.Paper, window.Menu, window);
