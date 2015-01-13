@@ -1,5 +1,5 @@
 
-(function(React, Classable, ClickAwayable, KeyLine, Paper, Icon, Menu, MenuItem, window) {
+(function(React, Classable, ClickAwayable, KeyLine, Paper, Icon, Menu, MenuItem, exports) {
   
   // var React = require('react'),
   //   Classable = require('./mixins/classable.js'),
