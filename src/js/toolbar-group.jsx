@@ -28,6 +28,6 @@
 
   });
 
-  module.exports = ToolbarGroup;
+  exports.ToolbarGroup = ToolbarGroup;
 
 })(window.React, window.Classable, window);

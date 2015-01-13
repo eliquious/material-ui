@@ -21,6 +21,6 @@
 
   });
 
-  module.exports = Toolbar;
+  exports.Toolbar = Toolbar;
 
 })(window.React, window.Classable, window);

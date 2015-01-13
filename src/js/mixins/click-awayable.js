@@ -36,4 +36,6 @@
 
   };
 
+  exports.ClickAwayable = ClickAwayable;
+
 })(window.Events, window.Dom, window);

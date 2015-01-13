@@ -1,4 +1,4 @@
-(function(React, Classable,EnhancedButton, Icon, Paper, exports) {
+(function(React, Classable, EnhancedButton, Icon, Paper, exports) {
 
   // var React = require('react');
   // var Classable = require('./mixins/classable.js');

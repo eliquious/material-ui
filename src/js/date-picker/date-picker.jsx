@@ -1,4 +1,4 @@
-(function(React, Classable, WindowListenable, DateTime, KeyCode, DatePicker, Input, exports) {
+(function(React, Classable, WindowListenable, DateTime, KeyCode, DatePickerDialog, Input, exports) {
 
   // var React = require('react');
   // var Classable = require('../mixins/classable.js');

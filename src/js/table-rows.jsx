@@ -1,57 +1,61 @@
-var React = require('react'),
-  Classable = require('./mixins/classable.js'),
-  TableRowsItem = require('./table-rows-item.jsx');
+(function(React, Classable, TableRowsItem, exports) {
 
-var TableRow = React.createClass({
+  // var React = require('react'),
+  //   Classable = require('./mixins/classable.js'),
+  //   TableRowsItem = require('./table-rows-item.jsx');
 
-  mixins: [Classable],
+  var TableRow = React.createClass({
 
-  propTypes: {
-    rowItems: React.PropTypes.array.isRequired
-  },
+    mixins: [Classable],
 
-  getDefaultProps: function() {
-    return {
-    };
-  },
+    propTypes: {
+      rowItems: React.PropTypes.array.isRequired
+    },
 
-  render: function() {
-    var classes = this.getClasses('mui-table-rows');
+    getDefaultProps: function() {
+      return {
+      };
+    },
 
-    return (
-      <div className={classes}>
-        {this._getChildren()}
-      </div>
-    );
-  },
+    render: function() {
+      var classes = this.getClasses('mui-table-rows');
 
-  _getChildren: function() {
-    var children = [],
-      rowItem,
-      itemComponent
-
-    for (var i=0; i < this.props.rowItems.length; i++) {
-      rowItem = this.props.rowItems[i];
-
-      /*
-      for(var prop in rowItem) {
-        if(rowItem.hasOwnProperty(prop)) {
-          console.log(prop);
-        }
-      }
-      console.log("--");
-      */
-
-      itemComponent = (
-        <TableRowsItem />
+      return (
+        <div className={classes}>
+          {this._getChildren()}
+        </div>
       );
+    },
 
-      children.push(itemComponent);
+    _getChildren: function() {
+      var children = [],
+        rowItem,
+        itemComponent
+
+      for (var i=0; i < this.props.rowItems.length; i++) {
+        rowItem = this.props.rowItems[i];
+
+        /*
+        for(var prop in rowItem) {
+          if(rowItem.hasOwnProperty(prop)) {
+            console.log(prop);
+          }
+        }
+        console.log("--");
+        */
+
+        itemComponent = (
+          <TableRowsItem />
+        );
+
+        children.push(itemComponent);
+      }
+
+      return children;
     }
 
-    return children;
-  }
+  });
 
-});
+  exports.TableRow = TableRow;
 
-module.exports = TableRow;
+})(window.React, window.Classable, window.TableRowsItem, window);
