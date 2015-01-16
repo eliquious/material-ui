@@ -6,25 +6,12 @@ var del = require('del'); // Deletes Files
 var react = require('gulp-react'); // Transforms JSX to JS
 var bower = require('gulp-bower'); // Bower
 var uglify = require('gulp-uglify'); // Minifies JS
-// var prettify = require('gulp-prettify'); // Formats JS
 var jshint = require('gulp-jshint');
 var changed = require('gulp-changed');
 var plumber = require('gulp-plumber');
 var through = require('through2');
 var ignore = require('gulp-ignore');
-// var mocha = require('gulp-mocha');
-// var istanbul = require('gulp-istanbul');
-// var cover = require('gulp-coverage');
-// var browserify = require('browserify');
-// var source = require("vinyl-source-stream");
-// var reactify = require('reactify');
-// var buffer = require('vinyl-buffer');
 var concat = require('gulp-concat');
-
-// var livereload = require('gulp-livereload'); // reloads resources
-// var connect = require('gulp-connect');
-// var source = require('vinyl-source-stream');
-// var less = require('gulp-less'); // Compiles LESS styles
 
 // Path defs
 var paths = {
@@ -35,9 +22,7 @@ var paths = {
     jsx_src: ['src/js/**/*.{js,jsx}'],
 };
 
-
 // Utility functions
-
 // Plumber handler which beeps on error
 var errorHandler = function(error) {
     console.log(error.toString());
