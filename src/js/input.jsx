@@ -1,8 +1,5 @@
 /** @jsx React.DOM */
 (function(React, Classable, exports) {
-
-  // var React = require('react/addons');
-  // var Classable = require('./mixins/classable.js');
   var classSet = React.addons.classSet;
 
   var Input = React.createClass({
@@ -87,6 +84,18 @@
           <span className="mui-input-error">{this.props.error}</span>
         </div>
       );
+    },
+
+    getValue: function() {
+      return this.state.value;
+    },
+
+    setValue: function(txt) {
+      this.setState({value: txt});
+    },
+
+    clearValue: function() {
+      this.setValue('');
     },
 
     blur: function() {

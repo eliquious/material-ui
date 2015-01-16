@@ -1485,10 +1485,10 @@
   //     Paper = require('./paper.jsx');
 
   var Toggle = React.createClass({displayName: "Toggle",
-
     propTypes: {
       onToggle: React.PropTypes.func,
-      toggled: React.PropTypes.bool
+      toggled: React.PropTypes.bool,
+      label: React.PropTypes.string
     },
 
     mixins: [Classable],
@@ -1499,18 +1499,26 @@
       }
     },
 
-    render: function() {
-      var classes = this.getClasses('mui-toggle', {
-        'mui-is-toggled': this.state.toggled
-      })
 
-      return (
+  componentWillReceiveProps: function (nextProps) {
+    if (nextProps.hasOwnProperty('toggled')) this.setState({toggled: nextProps.toggled});
+  },
+
+  render: function() {
+    var classes = this.getClasses('mui-toggle', {
+      'mui-is-toggled': this.state.toggled
+    })
+
+    return (
+      React.createElement("div", {className: "mui-toggle-wrap"}, 
+        this.props.label ? React.createElement("div", {className: "mui-toggle-label", onTouchTap: this._handleTouchTap}, this.props.label) : '', 
         React.createElement("div", {className: classes, onTouchTap: this._handleTouchTap}, 
           React.createElement("div", {className: "mui-toggle-track"}), 
           React.createElement(Paper, {className: "mui-toggle-thumb", zDepth: 1})
         )
-      );
-    },
+      )
+    );
+  },
 
     _handleTouchTap: function(e) {
       var toggledState = !this.state.toggled;
@@ -1525,96 +1533,6 @@
   exports.Toggle = Toggle;
 
 })(window.React, window.Classable, window.Paper, window);
-
-(function(React, Classable, Icon, Toggle, exports) {
-
-  // var React = require('react'),
-  //   Classable = require('./mixins/classable.js'),
-  //   Icon = require('./icon.jsx'),
-  //   Toggle = require('./toggle.jsx'),
-
-    Types = {
-      LINK: 'LINK',
-      SUBHEADER: 'SUBHEADER',
-      NESTED: 'NESTED'
-    };
-
-  var MenuItem = React.createClass({displayName: "MenuItem",
-
-    mixins: [Classable],
-
-    propTypes: {
-      index: React.PropTypes.number.isRequired,
-      icon: React.PropTypes.string,
-      iconRight: React.PropTypes.string,
-      attribute: React.PropTypes.string,
-      number: React.PropTypes.string,
-      data: React.PropTypes.string,
-      toggle: React.PropTypes.bool,
-      onClick: React.PropTypes.func,
-      onToggle: React.PropTypes.func,
-      selected: React.PropTypes.bool
-    },
-
-    statics: {
-      Types: Types
-    },
-
-    getDefaultProps: function() {
-      return {
-        toggle: false
-      };
-    },
-
-    render: function() {
-      var classes = this.getClasses('mui-menu-item', {
-          'mui-selected': this.props.selected
-        }),
-        icon,
-        data,
-        iconRight,
-        attribute,
-        number,
-        toggle;
-
-      if (this.props.icon) icon = React.createElement(Icon, {className: "mui-menu-item-icon", icon: this.props.icon});
-      if (this.props.data) data = React.createElement("span", {className: "mui-menu-item-data"}, this.props.data);
-      if (this.props.iconRight) iconRight = React.createElement(Icon, {className: "mui-menu-item-icon-right", icon: this.props.iconRight});
-      if (this.props.number !== undefined) number = React.createElement("span", {className: "mui-menu-item-number"}, this.props.number);
-      if (this.props.attribute !== undefined) attribute = React.createElement("span", {className: "mui-menu-item-attribute"}, this.props.attribute);
-      if (this.props.toggle) toggle = React.createElement(Toggle, {onToggle: this._onToggleClick});
-
-      return (
-        React.createElement("div", {key: this.props.index, className: classes, onMouseDown: this._onClick}, 
-          icon, 
-          this.props.children, 
-          data, 
-          attribute, 
-          number, 
-          toggle, 
-          iconRight
-        )
-      );
-    },
-
-    _onClick: function(e) {
-      var _this = this;
-
-      //animate the ripple
-      // this.refs.ripple.animate(e, function() {
-        if (_this.props.onClick) _this.props.onClick(e, _this.props.index);
-      // });
-    },
-
-    _onToggleClick: function(e, toggled) {
-      if (this.props.onToggle) this.props.onToggle(e, this.props.index, toggled);
-    }
-
-  });
-
-  exports.MenuItem = MenuItem;
-
-})(window.React, window.Classable, window.Icon, window.Toggle, window);
 
 (function(React, CssEvent, Dom, KeyLine, Classable, ClickAwayable, Paper, MenuItem, exports) {
 
@@ -2145,137 +2063,6 @@
 
 })(window.React, window.Classable, window.EnhancedButton, window.Icon, window.Paper, window);
 
-/** @jsx React.DOM */
-(function(React, Classable, exports) {
-
-  // var React = require('react/addons');
-  // var Classable = require('./mixins/classable.js');
-  var classSet = React.addons.classSet;
-
-  var Input = React.createClass({displayName: "Input",
-
-    propTypes: {
-      multiline: React.PropTypes.bool,
-      inlinePlaceholder: React.PropTypes.bool,
-      rows: React.PropTypes.number,
-      inputStyle: React.PropTypes.string,
-      error: React.PropTypes.string,
-      description: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      type: React.PropTypes.string,
-      onChange: React.PropTypes.func
-    },
-
-    mixins: [Classable],
-
-    getInitialState: function() {
-      return {
-        value: this.props.defaultValue,
-        rows: this.props.rows
-      };
-    },
-
-    getDefaultProps: function() {
-      return {
-        multiline: false,
-        type: "text"
-      };
-    },
-
-    render: function() {
-      var classes = this.getClasses('mui-input', {
-        'mui-floating': this.props.inputStyle === 'floating',
-        'mui-text': this.props.type === 'text',
-        'mui-error': this.props.error || false,
-        'mui-disabled': !!this.props.disabled,
-      });
-      var placeholder = this.props.inlinePlaceholder ? this.props.placeholder : "";
-      var inputIsNotEmpty = !!this.state.value;
-      var inputClassName = classSet({
-        'mui-is-not-empty': inputIsNotEmpty
-      });
-      var textareaClassName = classSet({
-        'mui-input-textarea': true,
-        'mui-is-not-empty': inputIsNotEmpty
-      });
-      var inputElement = this.props.multiline ?
-        this.props.valueLink ?
-          React.createElement("textarea", React.__spread({},  this.props, {ref: "input", 
-            className: textareaClassName, 
-            placeholder: placeholder, 
-            rows: this.state.rows})) :
-          React.createElement("textarea", React.__spread({},  this.props, {ref: "input", 
-            value: this.state.value, 
-            className: textareaClassName, 
-            placeholder: placeholder, 
-            rows: this.state.rows, 
-            onChange: this._onTextAreaChange})) :
-          this.props.valueLink ?
-            React.createElement("input", React.__spread({},  this.props, {ref: "input", 
-              className: inputClassName, 
-              placeholder: placeholder})) :
-            React.createElement("input", React.__spread({},  this.props, {ref: "input", 
-              className: inputClassName, 
-              value: this.state.value, 
-              placeholder: placeholder, 
-              onChange: this._onInputChange}));
-      var placeholderSpan = this.props.inlinePlaceholder ? null : 
-        React.createElement("span", {className: "mui-input-placeholder", onClick: this._onPlaceholderClick}, 
-          this.props.placeholder
-        );
-
-      return (
-        React.createElement("div", {ref: this.props.ref, className: classes}, 
-          inputElement, 
-          placeholderSpan, 
-          React.createElement("span", {className: "mui-input-highlight"}), 
-          React.createElement("span", {className: "mui-input-bar"}), 
-          React.createElement("span", {className: "mui-input-description"}, this.props.description), 
-          React.createElement("span", {className: "mui-input-error"}, this.props.error)
-        )
-      );
-    },
-
-    blur: function() {
-      if(this.isMounted()) this.refs.input.getDOMNode().blur();
-    },
-    
-    focus: function() {
-      if (this.isMounted()) this.refs.input.getDOMNode().focus();
-    },
-
-    _onInputChange: function(e) {
-      var value = e.target.value;
-      this.setState({value: value});
-      if (this.props.onChange) this.props.onChange(e, value);
-    },
-
-    _onPlaceholderClick: function(e) {
-      this.focus();
-    },
-
-    _onTextAreaChange: function(e) {
-      this._onInputChange(e);
-      this._onLineBreak(e);
-    },
-
-    _onLineBreak: function(e) {
-      var value = e.target.value;
-      var lines = value.split('\n').length;
-
-      if (lines > this.state.rows) {
-        if (this.state.rows !== 20) {
-          this.setState({ rows: ((this.state.rows) + 1)});
-        }
-      }
-    }
-
-  });
-
-  exports.Input = Input;
-
-})(window.React, window.Classable, window);
-
 (function(React, KeyCode, Classable, WindowListenable, Overlay, Paper, Menu, exports) {
 
   // var React = require('react'),
@@ -2544,185 +2331,6 @@
   exports.RaisedButton = RaisedButton;
 
 })(window.React, window.Classable, window.EnhancedButton, window.Paper, window);
-
-(function(React, Paper, Classable, Draggable, exports) {
-  
-  // var React = require('react'),
-  //     Paper = require('./paper.jsx'),
-  //     Classable = require('./mixins/classable.js'),
-  //     Draggable = require('react-draggable2');
-
-  var Slider = React.createClass({displayName: "Slider",
-
-    propTypes: {
-      required: React.PropTypes.bool,
-      disabled: React.PropTypes.bool,
-      min: React.PropTypes.number,
-      max: React.PropTypes.number,
-      step: React.PropTypes.number,
-      error: React.PropTypes.string,
-      description: React.PropTypes.string,
-      name: React.PropTypes.string.isRequired,
-      onChange: React.PropTypes.func
-    },
-
-    mixins: [Classable],
-
-    getDefaultProps: function() {
-      return {
-        required: true,
-        disabled: false,
-        defaultValue: 0,
-        min: 0,
-        max: 1,
-        dragging: false
-      };
-    },
-
-    getInitialState: function() {
-      var value = this.props.value;
-      if (value == null) value = this.props.defaultValue;
-      var percent = value / this.props.max;
-      if (isNaN(percent)) percent = 0;
-      return {
-        value: value,
-        percent: percent
-      }
-    },
-
-    componentWillReceiveProps: function(nextProps) {
-      if (nextProps.value != null) {
-        this.setValue(nextProps.value);
-      }
-    },
-
-    render: function() {
-      var classes = this.getClasses('mui-input', {
-        'mui-error': this.props.error != null
-      });
-
-      var sliderClasses = this.getClasses('mui-slider', {
-        'mui-slider-zero': this.state.percent == 0,
-        'mui-disabled': this.props.disabled
-      });
-
-      var percent = this.state.percent;
-      if (percent > 1) percent = 1; else if (percent < 0) percent = 0;
-
-      return (
-        React.createElement("div", {className: classes}, 
-          React.createElement("span", {className: "mui-input-highlight"}), 
-          React.createElement("span", {className: "mui-input-bar"}), 
-          React.createElement("span", {className: "mui-input-description"}, this.props.description), 
-          React.createElement("span", {className: "mui-input-error"}, this.props.error), 
-          React.createElement("div", {className: sliderClasses, onClick: this._onClick}, 
-            React.createElement("div", {ref: "track", className: "mui-slider-track"}, 
-              React.createElement(Draggable, {axis: "x", bound: "point", 
-                cancel: this.props.disabled ? '*' : null, 
-                start: {x: (percent * 100) + '%'}, 
-                onStart: this._onDragStart, 
-                onStop: this._onDragStop, 
-                onDrag: this._onDragUpdate}, 
-                React.createElement("div", {className: "mui-slider-handle", tabIndex: 0})
-              ), 
-              React.createElement("div", {className: "mui-slider-selection mui-slider-selection-low", 
-                style: {width: (percent * 100) + '%'}}, 
-                React.createElement("div", {className: "mui-slider-selection-fill"})
-              ), 
-              React.createElement("div", {className: "mui-slider-selection mui-slider-selection-high", 
-                style: {width: ((1 - percent) * 100) + '%'}}, 
-                React.createElement("div", {className: "mui-slider-selection-fill"})
-              )
-            )
-          ), 
-          React.createElement("input", {ref: "input", type: "hidden", 
-            name: this.props.name, 
-            value: this.state.value, 
-            required: this.props.required, 
-            min: this.props.min, 
-            max: this.props.max, 
-            step: this.props.step})
-        )
-      );
-    },
-
-    getValue: function() {
-      return this.state.value;
-    },
-
-    setValue: function(i) {
-      // calculate percentage
-      var percent = (i - this.props.min) / (this.props.max - this.props.min);
-      if (isNaN(percent)) percent = 0;
-      // update state
-      this.setState({
-        value: i,
-        percent: percent
-      });
-    },
-
-    getPercent: function() {
-      return this.state.percent;
-    },
-
-    setPercent: function (percent) {
-      var value = this._percentToValue(percent);
-      this.setState({value: value, percent: percent});
-    },
-
-    clearValue: function() {
-      this.setValue(0);
-    },
-
-    _onClick: function (e) {
-      // let draggable handle the slider
-      if (this.state.dragging || this.props.disabled) return;
-      var value = this.state.value;
-      var node = this.refs.track.getDOMNode();
-      var boundingClientRect = node.getBoundingClientRect();
-      var offset = e.clientX - boundingClientRect.left;
-      this._updateWithChangeEvent(e, offset / node.clientWidth);
-    },
-
-    _onDragStart: function(e, ui) {
-      this.setState({
-        dragging: true
-      });
-    },
-
-    _onDragStop: function(e, ui) {
-      this.setState({
-        dragging: false
-      });
-    },
-
-    _onDragUpdate: function(e, ui) {
-      if (!this.state.dragging) return;
-      if (!this.props.disabled) this._dragX(e, ui.position.left);
-    },
-
-    _dragX: function(e, pos) {
-      var max = this.refs.track.getDOMNode().clientWidth;
-      if (pos < 0) pos = 0; else if (pos > max) pos = max;
-      this._updateWithChangeEvent(e, pos / max);
-    },
-
-    _updateWithChangeEvent: function(e, percent) {
-      if (this.state.percent === percent) return;
-      this.setPercent(percent);
-      var value = this._percentToValue(percent);
-      if (this.props.onChange) this.props.onChange(e, value);
-    },
-
-    _percentToValue: function(percent) {
-      return percent * (this.props.max - this.props.min) + this.props.min;
-    }
-
-  });
-
-  exports.Slider = Slider;
-
-})(window.React, window.Paper, window.Classable, window.Draggable, window);
 
 (function(React, Classable, ClickAwayable, FlatButton, exports) {
 

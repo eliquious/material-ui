@@ -57,7 +57,7 @@
       if (this.props.toggle) toggle = React.createElement(Toggle, {onToggle: this._onToggleClick});
 
       return (
-        React.createElement("div", {key: this.props.index, className: classes, onMouseDown: this._onClick}, 
+        React.createElement("div", {key: this.props.index, className: classes, onTouchTap: this._onClick}, 
           icon, 
           this.props.children, 
           data, 
@@ -83,7 +83,6 @@
     }
 
   });
-
   exports.MenuItem = MenuItem;
 
 })(window.React, window.Classable, window.Icon, window.Toggle, window);
