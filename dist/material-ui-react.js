@@ -3081,7 +3081,7 @@ var Slider = React.createClass({displayName: "Slider",
 
   exports.SlideIn = SlideIn;
 
-});(window.React, window.Classable, window)
+})(window.React, window.Classable, window);
 
 (function(exports) {
 
