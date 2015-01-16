@@ -173,7 +173,6 @@ gulp.task('material', function() {
         .pipe(gulp.dest(paths.dist));
 });
 
-
 // 'default' task builds all React components and starts file watchers
 gulp.task('default', ['watch', 'build']);
 // gulp.task('default', ['watch', 'bower', 'jsx', 'material', 'material:bundle']);
