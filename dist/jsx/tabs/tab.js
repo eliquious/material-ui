@@ -1,6 +1,6 @@
 (function(React, Classable, TabTemplate, exports) {
 
-  var Tab = React.createClass({
+  var Tab = React.createClass({displayName: "Tab",
 
     mixins: [Classable],
 
@@ -24,9 +24,9 @@
       });
 
       return (
-      <div className={classes} style={styles} onTouchTap={this.handleTouchTap} routeName={this.props.route}>
-        {this.props.label}
-      </div>
+      React.createElement("div", {className: classes, style: styles, onTouchTap: this.handleTouchTap, routeName: this.props.route}, 
+        this.props.label
+      )
       )
     }
 

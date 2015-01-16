@@ -1,15 +1,17 @@
-var React = require('react');
+(function(React, exports) {
 
-var TabTemplate = React.createClass({
+    var TabTemplate = React.createClass({
 
-  render: function(){
+      render: function(){
 
-    return (
-      <div className='mui-tab-template'>
-        {this.props.children}
-      </div>
-    );
-  },
-});
+        return (
+          <div className='mui-tab-template'>
+            {this.props.children}
+          </div>
+        );
+      },
+    });
 
-module.exports = TabTemplate;
+    exports.TabTemplate = TabTemplate;
+
+})(window.React, window);

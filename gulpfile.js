@@ -142,7 +142,11 @@ var material = [
     'src/js/date-picker/date-display.jsx',
     'src/js/date-picker/calendar.jsx',
     'src/js/date-picker/date-picker-dialog.jsx',
-    'src/js/date-picker/date-picker.jsx'
+    'src/js/date-picker/date-picker.jsx',
+    'src/js/tabs/tab.jsx',
+    'src/js/tabs/tabTemplate.jsx',
+    'src/js/ink-bar.jsx',
+    'src/js/tabs/tabs.jsx'
 ];
 gulp.task('material-min', function() {
     return gulp.src(material)

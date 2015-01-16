@@ -4,7 +4,7 @@
   // var TabTemplate = require('./tabTemplate.jsx');
   // var InkBar = require('../ink-bar.jsx');
 
-  var Tabs = React.createClass({
+  var Tabs = React.createClass({displayName: "Tabs",
 
     propTypes: {
       onActive: React.PropTypes.func
@@ -71,15 +71,15 @@
       });
 
       return (
-        <div className="mui-tabs-container">
-          <div className="mui-tab-item-container">
-            {tabs}
-          </div>
-          <InkBar left={left} width={width}/>
-          <TabTemplate>
-            {currentTemplate}
-          </TabTemplate>
-        </div>
+        React.createElement("div", {className: "mui-tabs-container"}, 
+          React.createElement("div", {className: "mui-tab-item-container"}, 
+            tabs
+          ), 
+          React.createElement(InkBar, {left: left, width: width}), 
+          React.createElement(TabTemplate, null, 
+            currentTemplate
+          )
+        )
       )
     },
 

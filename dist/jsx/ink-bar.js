@@ -1,6 +1,6 @@
 (function(React, exports) {
 
-  var InkBar = React.createClass({
+  var InkBar = React.createClass({displayName: "InkBar",
     
     propTypes: {
       position: React.PropTypes.string
@@ -14,9 +14,9 @@
       }
 
       return (
-        <div className='mui-ink-bar' style={styles}>
-          &nbsp;
-        </div>
+        React.createElement("div", {className: "mui-ink-bar", style: styles}, 
+          " "
+        )
       );
     }
 
