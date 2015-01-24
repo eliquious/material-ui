@@ -2398,7 +2398,7 @@
 
   });
 
-  exportsLeftNav = LeftNav;
+  exports.LeftNav = LeftNav;
 
 })(window.React, window.KeyCode, window.Classable, window.WindowListenable, window.Overlay, window.Paper, window.Menu, window);
 
