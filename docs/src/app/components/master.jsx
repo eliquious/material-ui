@@ -30,10 +30,7 @@ var Master = React.createClass({
       <AppCanvas predefinedLayout={1}>
 
         <AppBar
-          className="mui-dark-theme"
-          onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}
-          title={title}
-          zDepth={0}>
+          title={title}>
           {githubButton}
         </AppBar>
 
